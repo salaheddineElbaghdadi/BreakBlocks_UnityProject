@@ -214,6 +214,7 @@ GameObject:
   m_Component:
   - component: {fileID: 927277918}
   - component: {fileID: 927277917}
+  - component: {fileID: 927277919}
   m_Layer: 0
   m_Name: PlayersManager
   m_TagString: Untagged
@@ -233,7 +234,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6cc61eccf56de64eaabc0b5cb1bfa61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerCount: 2
+  playerCount: 1
   levelPrefab: {fileID: 1047115869701804936, guid: 95cde822e530a8e42a9fd969c43ab669,
     type: 3}
 --- !u!4 &927277918
@@ -250,3 +251,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &927277919
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 927277916}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a69796100f213d438f98bc43874d7aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerOneLeftKey: 276
+  playerOneRightKey: 275
+  playerTwoLeftKey: 97
+  playerTwoRightKey: 100
+  startKey: 32

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,8 +7,10 @@ using UnityEngine;
 public class Ball : MonoBehaviour
 {
     [SerializeField] private Paddle paddle;
+    [SerializeField] private float velocityMagnitue = 15f;
 
     private Rigidbody2D rb;
+    private Vector2 direction;
     private float xPush = 2f;
     private float yPush = 15f;
     private float paddleOffset = 0.3f;
@@ -18,12 +21,16 @@ public class Ball : MonoBehaviour
         rb = gameObject.GetComponent<Rigidbody2D>();
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if (!started)
         {
             StickToPaddle();
-            CheckForStart();
+        }
+        else
+        {
+            direction = rb.velocity;
+            rb.velocity = direction.normalized * velocityMagnitue;
         }
     }
 
@@ -36,10 +43,9 @@ public class Ball : MonoBehaviour
         transform.position = paddle.transform.position + new Vector3(0, paddleOffset, 0);
     }
 
-    void CheckForStart()
+    public void OnStartKeyPressed(object o, EventArgs e)
     {
-        if (Input.GetKey(KeyCode.Space))
-        {
+        if (!started) {
             started = true;
             rb.velocity = new Vector2(xPush, yPush);
         }
