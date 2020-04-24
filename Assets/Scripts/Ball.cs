@@ -38,7 +38,7 @@ public class Ball : MonoBehaviour
     {
     }
 
-    void StickToPaddle()
+    private void StickToPaddle()
     {
         transform.position = paddle.transform.position + new Vector3(0, paddleOffset, 0);
     }
