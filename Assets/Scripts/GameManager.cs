@@ -105,15 +105,4 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void OnPlayerOneHitBottomCollider(object o, EventArgs e) 
-    {
-        Debug.Log("Player one lost");
-    }
-
-    public void OnPlayerTwoHitBottomCollider(object o, EventArgs e) 
-    {
-        Debug.Log("Player two lost");
-    }
-
-
 }
