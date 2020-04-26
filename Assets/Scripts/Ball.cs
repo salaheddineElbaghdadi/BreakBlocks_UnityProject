@@ -9,6 +9,8 @@ public class Ball : MonoBehaviour
     [SerializeField] private Paddle paddle;
     [SerializeField] private float velocityMagnitue = 15f;
 
+    public event EventHandler OnHitBottomCollider;
+
     private Rigidbody2D rb;
     private Vector2 direction;
     private float xPush = 2f;
@@ -36,6 +38,10 @@ public class Ball : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        if (collision.gameObject.tag == "BottomCollider")
+        {
+            OnHitBottomCollider?.Invoke(this, EventArgs.Empty);
+        }
     }
 
     private void StickToPaddle()

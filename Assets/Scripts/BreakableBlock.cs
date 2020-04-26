@@ -16,7 +16,7 @@ public class BreakableBlock : MonoBehaviour
             totalHits++;
             if (totalHits == hitsNeededBeforeBreak)
             {
-                Debug.Log("destroyed");
+                //Debug.Log("destroyed");
                 FindObjectOfType<GameManager>().CountBlocks();
                 Destroy(this.gameObject);
             }

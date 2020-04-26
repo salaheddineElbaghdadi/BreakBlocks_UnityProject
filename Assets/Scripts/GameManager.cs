@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -20,6 +21,8 @@ public class GameManager : MonoBehaviour
     private GameObject levelTwo;
     private Camera cameraOne;
     private Camera cameraTwo;
+    private Ball levelOneBall;
+    private Ball levelTwoBall;
 
     private void Awake()
     {
@@ -49,11 +52,12 @@ public class GameManager : MonoBehaviour
         }
 
         GetBlocks();
+        GetBalls();
     }
 
     public void CountBlocks()
     {
-        Debug.Log("Recounting Blocks");
+        //Debug.Log("Recounting Blocks");
         GetBlocks();
         
         if (levelOneBlocks.Count == 0)
@@ -75,6 +79,40 @@ public class GameManager : MonoBehaviour
         {
             levelTwoBlocks = levelTwo.GetComponentsInChildren<BreakableBlock>().ToList<BreakableBlock>();
         }
+    }
+
+    private void GetBalls() 
+    {
+        levelOneBall = levelOne.GetComponentInChildren<Ball>();
+        levelOneBall.OnHitBottomCollider += OnPlayerHitBottomCollider;
+
+        if (playerCount == 2)
+        {
+            levelTwoBall = levelTwo.GetComponentInChildren<Ball>();
+            levelTwoBall.OnHitBottomCollider += OnPlayerHitBottomCollider;
+        }
+    }
+
+    public void OnPlayerHitBottomCollider(object o, EventArgs e)
+    {
+        if ((Ball)o == levelOneBall)
+        {
+            Debug.Log("player one lost");
+        }
+        else if ((Ball)o == levelTwoBall)
+        {
+            Debug.Log("player two lost");
+        }
+    }
+
+    public void OnPlayerOneHitBottomCollider(object o, EventArgs e) 
+    {
+        Debug.Log("Player one lost");
+    }
+
+    public void OnPlayerTwoHitBottomCollider(object o, EventArgs e) 
+    {
+        Debug.Log("Player two lost");
     }
 
 
