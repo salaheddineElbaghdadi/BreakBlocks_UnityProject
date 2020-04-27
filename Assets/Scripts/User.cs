@@ -19,4 +19,9 @@ public class User
     {
         return JsonUtility.ToJson(this, true);
     }
+
+    public string toCsvFormat()
+    {
+        return userName + ";" + password;
+    }
 }
