@@ -48,17 +48,25 @@ public class GameManager : MonoBehaviour
             inputManager.OnPlayerTwoPressRight += levelTwo.GetComponentInChildren<Paddle>().OnPressKeyRight;
             inputManager.OnPressStart += levelTwo.GetComponentInChildren<Ball>().OnStartKeyPressed;
 
-            cameraOne = levelOne.GetComponentInChildren<Camera>();
-            cameraTwo = levelTwo.GetComponentInChildren<Camera>();
-
-            cameraOne.rect = new Rect(0, 0, 0.5f, 1);
-            cameraTwo.rect = new Rect(0.5f, 0, 0.5f, 1);
-
-            cameraTwo.GetComponent<AudioListener>().enabled = false;
         }
 
+        setCameras();
         GetBlocks();
         GetBalls();
+    }
+    
+    private void setCameras()
+    {
+        cameraOne = levelOne.GetComponentInChildren<Camera>();
+        cameraOne.rect = new Rect(0.25f, 0, 0.5f, 1);
+        
+        if (playerCount == 2)
+        {
+            cameraTwo = levelTwo.GetComponentInChildren<Camera>();
+            cameraOne.rect = new Rect(0, 0, 0.5f, 1);
+            cameraTwo.rect = new Rect(0.5f, 0, 0.5f, 1);
+            cameraTwo.GetComponent<AudioListener>().enabled = false;
+        }
     }
 
     public void CountBlocks()
@@ -125,6 +133,7 @@ public class GameManager : MonoBehaviour
             winPanelText.SetText("Player one won!");
         else if (winner == 2)
             winPanelText.SetText("Player two won!");
+        winPanel.SetActive(true);
     }
 
     private void EndScreen(User player, bool won)

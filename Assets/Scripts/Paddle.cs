@@ -35,11 +35,29 @@ public class Paddle : MonoBehaviour
 
     public void OnPressKeyLeft(object o, EventArgs e)
     {
-        transform.position = new Vector3(transform.position.x - speed * Time.deltaTime, transform.position.y);
+        Vector3 direction = new Vector3(transform.position.x - speed * Time.deltaTime, transform.position.y);
+        transform.position = direction;
+        /*
+        Ray ray = new Ray(transform.position, direction);
+        RaycastHit hit;
+        if (!Physics.Raycast(ray, out hit, direction.magnitude))
+            rb.MovePosition(direction);
+        else
+            rb.MovePosition(hit.point);
+        */
     }
 
     public void OnPressKeyRight(object o, EventArgs e)
     {
-        transform.position = new Vector3(transform.position.x + speed * Time.deltaTime, transform.position.y);
+        Vector3 direction = new Vector3(transform.position.x + speed * Time.deltaTime, transform.position.y);
+        transform.position = direction;
+        /*
+        Ray ray = new Ray(transform.position, direction);
+        RaycastHit hit;
+        if (!Physics.Raycast(ray, out hit, direction.magnitude))
+            rb.MovePosition(direction);
+        else
+            rb.MovePosition(hit.point);
+        */
     }
 }

@@ -23,6 +23,7 @@ public class Ball : MonoBehaviour
         rb = gameObject.GetComponent<Rigidbody2D>();
     }
 
+
     void FixedUpdate()
     {
         if (!started)
