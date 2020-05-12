@@ -16,6 +16,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject levelPrefab;
     [SerializeField] private GameObject winPanel;
     [SerializeField] private TextMeshProUGUI winPanelText;
+    [SerializeField] private bool playerOneAuto = false;
+    [SerializeField] private bool playerTwoAuto = false;
     private InputManager inputManager;
     private GameState gameState;
     private List<BreakableBlock> levelOneBlocks;
@@ -28,37 +30,57 @@ public class GameManager : MonoBehaviour
     private Camera cameraTwo;
     private Ball levelOneBall;
     private Ball levelTwoBall;
+    private Paddle levelOnePaddle;
+    private Paddle levelTwoPaddle;
 
     private void Start()
     {
-        inputManager = gameObject.GetComponent<InputManager>();
         gameState = gameObject.GetComponent<GameState>();
         
         levelOne = Instantiate(levelPrefab, levelPositionPlayerOne, Quaternion.identity);
-        inputManager.OnPlayerOnePressLeft += levelOne.GetComponentInChildren<Paddle>().OnPressKeyLeft;
-        inputManager.OnPlayerOnePressRight += levelOne.GetComponentInChildren<Paddle>().OnPressKeyRight;
-        inputManager.OnPressStart += levelOne.GetComponentInChildren<Ball>().OnStartKeyPressed;
-
 
         if (playerCount == 2)
         {
             levelTwo = Instantiate(levelPrefab, levelPositionPlayerTwo, Quaternion.identity);
+        }
 
+        SetCameras();
+        GetBlocks();
+        GetBalls();
+        GetPaddles();
+        SetInput();
+
+        if (playerOneAuto)
+            SetAutoPaddle(levelOnePaddle, levelOneBall);
+        if (playerCount == 2 && playerTwoAuto)
+            SetAutoPaddle(levelTwoPaddle, levelTwoBall);
+    }
+
+    private void SetInput()
+    {
+        inputManager = gameObject.GetComponent<InputManager>();
+
+        inputManager.OnPlayerOnePressLeft += levelOnePaddle.OnPressKeyLeft;
+        inputManager.OnPlayerOnePressRight += levelOnePaddle.OnPressKeyRight;
+        inputManager.OnPressStart += levelOne.GetComponentInChildren<Ball>().OnStartKeyPressed;
+
+        if (playerCount == 2)
+        {
             inputManager.OnPlayerTwoPressLeft += levelTwo.GetComponentInChildren<Paddle>().OnPressKeyLeft;
             inputManager.OnPlayerTwoPressRight += levelTwo.GetComponentInChildren<Paddle>().OnPressKeyRight;
             inputManager.OnPressStart += levelTwo.GetComponentInChildren<Ball>().OnStartKeyPressed;
-
         }
-
-        setCameras();
-        GetBlocks();
-        GetBalls();
     }
     
-    private void setCameras()
+    private void SetCameras()
     {
         cameraOne = levelOne.GetComponentInChildren<Camera>();
         cameraOne.rect = new Rect(0.25f, 0, 0.5f, 1);
+
+        if (playerCount == 1)
+        {
+            cameraOne.rect = new Rect(0, 0, 1, 1);
+        }
         
         if (playerCount == 2)
         {
@@ -110,6 +132,18 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void GetPaddles()
+    {
+        levelOnePaddle = levelOne.GetComponentInChildren<Paddle>();
+        levelOnePaddle.GetComponent<AutoPaddle>().ball = levelOneBall;
+        
+        if (playerCount == 2)
+        {
+            levelTwoPaddle = levelTwo.GetComponentInChildren<Paddle>();
+            levelTwoPaddle.GetComponent<AutoPaddle>().ball = levelTwoBall;
+        }
+    }
+
     public void OnPlayerHitBottomCollider(object o, EventArgs e)
     {
         if (playerCount == 1)
@@ -156,5 +190,11 @@ public class GameManager : MonoBehaviour
         winPanel.SetActive(true);
     }
 
-
+    private void SetAutoPaddle(Paddle paddle, Ball ball)
+    {
+        AutoPaddle autoPaddle = paddle.gameObject.GetComponent<AutoPaddle>();
+        autoPaddle.ball = ball;
+        autoPaddle.moveLeft += paddle.OnPressKeyLeft;
+        autoPaddle.moveRight += paddle.OnPressKeyRight;
+    }
 }
